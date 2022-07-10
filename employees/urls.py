@@ -1,10 +1,19 @@
 from django.urls import path
 
-from employees.apiviews import EmployeeList, EmployeeDetail, EmployeeSave, EmployeeUpdate
+from employees.apiviews import  EmployeeViewSet
+
+employee_list = EmployeeViewSet.as_view({
+    "get": "list",
+    "post": "create"
+})
+employee_detail = EmployeeViewSet.as_view({
+    "get": "retrieve",
+    # "put": "update",
+    "patch": "partial_update",
+    # "delete": "destroy"
+})
 
 urlpatterns = [
-    path('employees/', EmployeeList.as_view(), name='employee_list'),
-    path('employees/<int:id>', EmployeeDetail.as_view(), name='employee_detail'),
-    path('employees/', EmployeeSave.as_view, name='employee_save' ),
-    path('employees/<int:id>', EmployeeUpdate.as_view, name='employee_update'),
+    path('manage/employees/', employee_list, name='employee-list'),
+    path('manage/employees/<int:pk>/', employee_detail, name='employee-detail'),
 ]
